@@ -12,6 +12,8 @@ Gem::Specification.new do |s|
   s.description = %q{TODO: Write a gem description}
 
   s.rubyforge_project = "quake"
+  
+  spec.add_dependency('curb', '>= 0.7.15')
 
   s.files         = `git ls-files`.split("\n")
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
