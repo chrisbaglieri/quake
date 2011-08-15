@@ -1,5 +1,2 @@
+require 'quake/event'
 require "quake/version"
-
-module Quake
-  # Your code goes here...
-end
