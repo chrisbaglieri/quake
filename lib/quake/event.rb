@@ -50,7 +50,7 @@ module Quake
       events = []
       raw_items.each do |raw_item|
         event = Event.new(raw_item)
-        if event.magnitude > minimum_magnitude
+        if event.magnitude >= minimum_magnitude
           events << Event.new(raw_item)
         end
       end
