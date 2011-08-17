@@ -36,4 +36,4 @@ Fetch all the earthquakes from the past week with a magnitude of at least 2:
 Questions or Problems?
 ----------------------
 
-If you have any issues, please add an [issue on GitHub](https://github.com/chrisbaglieri/quake/issues) or fork the project and send a pull request. The tests are very straight forward, nothing more than minitest; yay for simplicity!
+If you have any issues, please [add them to GitHub](https://github.com/chrisbaglieri/quake/issues) or fork the project and send a pull request (with tests of course). The tests are very straight forward, nothing more than minitest; yay for simplicity!
