@@ -7,22 +7,33 @@ Installation
 ------------
 
 via Gem:
-[sudo|rvm] gem install quake
+
+    [sudo|rvm] gem install quake
 
 via Bundler:
-gem "quake"
+
+    gem "quake"
 
 Basic Usage
 -----------
 
 Fetch all the earthquakes from the past week:
-events = Quake::Event.last_week
+
+    events = Quake::Event.last_week
 
 Fetch all the earthquakes from the past day:
-events = Quake::Event.last_day
+
+    events = Quake::Event.last_day
 
 Fetch all the earthquakes from the past hour:
-events = Quake::Event.last_hour
+
+    events = Quake::Event.last_hour
 
 Fetch all the earthquakes from the past week with a magnitude of at least 2:
-events = Quake::Event.last_week(2)
+
+    events = Quake::Event.last_week(2)
+
+Questions or Problems?
+----------------------
+
+If you have any issues, please add an [issue on GitHub](https://github.com/chrisbaglieri/quake/issues) or fork the project and send a pull request. The tests are very straight forward, nothing more than minitest; yay for simplicity!
