@@ -15,19 +15,19 @@ module Quake
     attr_accessor :nst
     attr_accessor :region
     
-    def self.last_week(minimum_magnitude=2.5)
+    def self.last_week(criteria = {:min_magnitude => 2.5, :max_magnitude => 10})
       raw_items = CSV.parse(Curl::Easy.perform(WEEK).body_str)
-      create_events(raw_items, minimum_magnitude)
+      create_events(raw_items, criteria)
     end
     
-    def self.last_day(minimum_magnitude=0)
+    def self.last_day(criteria = {:max_magnitude => 10})
       raw_items = CSV.parse(Curl::Easy.perform(DAY).body_str)
-      create_events(raw_items, minimum_magnitude)
+      create_events(raw_items, criteria)
     end
     
-    def self.last_hour(minimum_magnitude=0)
+    def self.last_hour(criteria = {:max_magnitude => 10})
       raw_items = CSV.parse(Curl::Easy.perform(HOUR).body_str)
-      create_events(raw_items, minimum_magnitude)
+      create_events(raw_items, criteria)
     end
     
     def initialize(raw)
@@ -45,14 +45,22 @@ module Quake
     
     private
     
-    def self.create_events(raw_items, minimum_magnitude)
+    def self.create_events(raw_items, criteria)
+      criteria[:max_magnitude] = 10 unless criteria[:max_magnitude]
       raw_items.shift
       events = []
       raw_items.each do |raw_item|
         event = Event.new(raw_item)
-        if event.magnitude >= minimum_magnitude
-          events << Event.new(raw_item)
+        valid_event = true
+        criteria.keys.each do |criterion|
+          case criterion
+          when :min_magnitude
+            valid_event = false unless event.magnitude >= criteria[criterion]
+          when :max_magnitude
+            valid_event = false unless event.magnitude <= criteria[criterion]
+          end
         end
+        events << Event.new(raw_item) if valid_event
       end
       events
     end
