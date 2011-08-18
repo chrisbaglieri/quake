@@ -36,8 +36,8 @@ class EventTests < MiniTest::Unit::TestCase
   def test_recent_events_week_with_min_magnitude_of_three_max_magnitude_four
     events = Quake::Event.last_week :min_magnitude => 3, :max_magnitude => 4
     events.each do |event|
-      assert(events[0].magnitude >= 3)
-      assert(events[0].magnitude <= 4)
+      assert(event.magnitude >= 3)
+      assert(event.magnitude <= 4)
     end
   end
   
