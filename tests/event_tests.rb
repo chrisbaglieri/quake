@@ -41,4 +41,9 @@ class EventTests < MiniTest::Unit::TestCase
     end
   end
   
+  def test_recent_events_hour_with_bogus_criteria
+    events = Quake::Event.last_hour :foo => 1
+    assert(events.count > 0)
+  end
+  
 end
