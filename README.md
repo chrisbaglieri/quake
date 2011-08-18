@@ -29,9 +29,11 @@ Fetch all the earthquakes from the past hour:
 
     events = Quake::Event.last_hour
 
-Fetch all the earthquakes from the past week with a magnitude of at least 2:
+Fetch all the earthquakes from the past [week|day|hour] with minimum and/or maximum magnitudes:
 
-    events = Quake::Event.last_week(2)
+    events = Quake::Event.last_week :min_magnitude => 3
+    events = Quake::Event.last_week :max_magnitude => 4
+    events = Quake::Event.last_week :min_magnitude => 3, :max_magnitude => 4
 
 Questions or Problems?
 ----------------------
