@@ -46,4 +46,17 @@ class EventTests < MiniTest::Unit::TestCase
     assert(events.count > 0)
   end
   
+  def test_event_distance_for_identicals
+    events = Quake::Event.last_day
+    event = events[0];
+    assert(event.distance_from(event.latitude, event.longitude) == 0)
+  end
+  
+  def test_event_distance_for_different
+    events = Quake::Event.last_day
+    event1 = events[0];
+    event2 = events[events.count-1];
+    assert(event1.distance_from(event2.latitude, event2.longitude) > 0)
+  end
+  
 end

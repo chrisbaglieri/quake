@@ -30,13 +30,20 @@ module Quake
       create_events(raw_items, criteria)
     end
     
+    def distance_from(lat, long)
+      (Math.acos(Math.sin(self.latitude) * 
+      Math.sin(lat) + Math.cos(self.latitude) * 
+      Math.cos(lat) * Math.cos(self.longitude - long)) * 
+      SPHERICAL_APPROX_OF_EARTH).round(2)
+    end
+    
     def initialize(raw)
       self.source = raw[0]
       self.id = raw[1]
       self.version = raw[2].to_i
       self.datetime = DateTime.strptime(raw[3], fmt="%A, %B %d, %Y %H:%M:%S UTC")
-      self.latitude = raw[4]
-      self.longitude = raw[5]
+      self.latitude = raw[4].to_f
+      self.longitude = raw[5].to_f
       self.magnitude = raw[6].to_f
       self.depth = raw[7].to_f
       self.nst = raw[8].to_i
@@ -68,6 +75,7 @@ module Quake
     WEEK = "http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M2.5.txt"
     DAY = "http://earthquake.usgs.gov/earthquakes/catalogs/eqs1day-M0.txt"
     HOUR = "http://earthquake.usgs.gov/earthquakes/catalogs/eqs1hour-M0.txt"
+    SPHERICAL_APPROX_OF_EARTH = 6371 # km
     
   end
   
