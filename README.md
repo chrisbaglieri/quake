@@ -37,8 +37,8 @@ Fetch all the earthquakes from the past [week|day|hour] with minimum and/or maxi
 
 Fetch all the earthquakes from the past [week|day|hour] with a minimum and/or maximum magnitude at or near a location (in km):
 
-		events = Quake::Event.last_week :min_magnitude => 2, :epicenter => "37.156, -117.3723"
-		events = Quake::Event.last_week :min_magnitude => 2, :epicenter => "37.156, -117.3723", :distance => 100
+    events = Quake::Event.last_week :min_magnitude => 2, :epicenter => "37.156, -117.3723"
+    events = Quake::Event.last_week :min_magnitude => 2, :epicenter => "37.156, -117.3723", :distance => 100
 
 Questions or Problems?
 ----------------------
