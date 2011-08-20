@@ -48,15 +48,29 @@ class EventTests < MiniTest::Unit::TestCase
   
   def test_event_distance_for_identicals
     events = Quake::Event.last_day
-    event = events[0];
+    event = events[0]
     assert(event.distance_from(event.latitude, event.longitude) == 0)
   end
   
   def test_event_distance_for_different
     events = Quake::Event.last_day
-    event1 = events[0];
-    event2 = events[events.count-1];
+    event1 = events[0]
+    event2 = events[events.count-1]
     assert(event1.distance_from(event2.latitude, event2.longitude) > 0)
+  end
+  
+  def test_revent_events_with_epicenter
+    events = Quake::Event.last_day
+    event = events[0]
+    events = Quake::Event.last_day :epicenter => "#{event.latitude},#{event.longitude}"
+    assert(events.count == 1)
+  end
+  
+  def test_revent_events_with_epicenter_and_distance
+    events = Quake::Event.last_day
+    event = events[0]
+    events = Quake::Event.last_day :epicenter => "#{event.latitude},#{event.longitude}", :distance => 20004 # half the earth's circumference
+    assert(events.count > 1)
   end
   
 end

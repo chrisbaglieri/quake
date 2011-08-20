@@ -15,17 +15,17 @@ module Quake
     attr_accessor :nst
     attr_accessor :region
     
-    def self.last_week(criteria = {:min_magnitude => 2.5, :max_magnitude => 10})
+    def self.last_week(criteria = {:min_magnitude => 2.5})
       raw_items = CSV.parse(Curl::Easy.perform(WEEK).body_str)
       create_events(raw_items, criteria)
     end
     
-    def self.last_day(criteria = {:max_magnitude => 10})
+    def self.last_day(criteria = {})
       raw_items = CSV.parse(Curl::Easy.perform(DAY).body_str)
       create_events(raw_items, criteria)
     end
     
-    def self.last_hour(criteria = {:max_magnitude => 10})
+    def self.last_hour(criteria = {})
       raw_items = CSV.parse(Curl::Easy.perform(HOUR).body_str)
       create_events(raw_items, criteria)
     end
@@ -65,6 +65,9 @@ module Quake
             valid_event = false unless event.magnitude >= criteria[criterion]
           when :max_magnitude
             valid_event = false unless event.magnitude <= criteria[criterion]
+          when :epicenter
+            criteria[:distance] = 0 unless criteria[:distance]
+            valid_event = self.check_distance(event, criteria)
           end
         end
         events << Event.new(raw_item) if valid_event
@@ -72,10 +75,22 @@ module Quake
       events
     end
     
+    def self.check_distance(event, criteria)
+      valid_event = true
+      if LAT_LONG_REGEX.match(criteria[:epicenter])
+        coordinates = criteria[:epicenter].split(',').collect{ |coordinate| coordinate.strip.to_f }
+        valid_event = false unless event.distance_from(coordinates[0], coordinates[1]) <= criteria[:distance]
+      else
+        valid_event = false
+      end
+      valid_event
+    end
+        
     WEEK = "http://earthquake.usgs.gov/earthquakes/catalogs/eqs7day-M2.5.txt"
     DAY = "http://earthquake.usgs.gov/earthquakes/catalogs/eqs1day-M0.txt"
     HOUR = "http://earthquake.usgs.gov/earthquakes/catalogs/eqs1hour-M0.txt"
     SPHERICAL_APPROX_OF_EARTH = 6371 # km
+    LAT_LONG_REGEX = /^\s*[-+]?\d+\.\d+\,\s?[-+]?\d+\.\d+\s*$/
     
   end
   
